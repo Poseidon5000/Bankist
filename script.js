@@ -1,8 +1,5 @@
 'use strict';
 
-const c = console.log.bind(document)
-
-/////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // BANKIST APP
 
@@ -73,84 +70,40 @@ const currencies = new Map([
   ['GBP', 'Pound sterling'],
 ]);
 
+const displayMovements = function(movements){
+containerMovements.innerHTML = " "
 
-
-/////////////////////////////////////////////////
-
-
-const displayMovements = (movements) =>{
-containerMovements.innerHTML = ''
-
-  movements.forEach(function(mov, i){
-    const type = mov > 0 ? 'deposit' : 'withdrawal';
-
-    const html = `
+  movements.forEach((mov, i) => {
+    const type = mov>0 ? 'deposit' : 'withdrawal'
     
-      <div class="movements__row">
-          <div class="movements__type movements__type--${type}">${i + 1} ${type}</div>
-          <div class="movements__date">3 days ago</div>
-          <div class="movements__value">${mov}€</div>
-        </div>
-    
-    `
-          
+    const html = `<div class="movements__row">
+    <div class="movements__type movements__type--${type}">${i + 1} ${type}</div>
+    <div class="movements__value">${mov}€</div>
+  </div>`
 
-  containerMovements.insertAdjacentHTML('afterbegin', html)  
+
+  containerMovements.insertAdjacentHTML("afterbegin", html)
+  });
+}
+
+displayMovements(account1.movements)
+
+
+ const calcDisplayBalance = function(movements){
+    const balance = movements.reduce((acc, mov) => acc + mov, 0)
+    labelBalance.textContent = `${balance}€`
+ }
+
+ calcDisplayBalance(account1.movements)
+
+
+
+const userNames = (accs) =>{
+  accs.forEach(function(acc){
+    acc.username = acc.owner.toLowerCase().split(' ').map(name => name[0]).join('')
   })
 }
 
-displayMovements(account1.movements);
-
-
-
-const createUsername = (accts) => {
-  accts.forEach((acct) => {
-    acct.username = acct.owner.toLowerCase().split(' ').map(name => name[0]).join('') 
-  })
-}
-
-createUsername(accounts)
-
- let movements =  [200, 450, -400, 3000, -650, -130, 70, 1300]
-
-
-let depositCash = movements.filter(function(mov){
-return mov > 0
-})
-
-// console.log(depositCash);
-
-
-let withdrawals = movements.filter(draw => draw < 0);
-
-// console.log(withdrawals);
-
-
-let balance = movements.reduce((acc, curr, i, arr) => {
-  return acc + curr
-}, 0)
-
-console.log(balance);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+userNames(accounts)
 
 
