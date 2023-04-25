@@ -159,12 +159,16 @@ btnTransfer.addEventListener("click", function(e){
 e.preventDefault()
 
   const amount =Number(inputTransferAmount.value)
-  const receiverAcc = accounts.find((acc)=> acc.username == inputTransferTo.value )
+  const receiverAcc = accounts.find((acc)=> acc.username == inputTransferTo.value );
 
-  
+  if(!receiverAcc)alert("Please input transfer account");
+  else if(!amount)alert("Please input transfer amount");
+  else if(amount < 0)alert("Transfer has to greater than 0");
+  else if(amount > currentAccount.balance)alert("Transfer amount cannot be higher than account balance");
+  else if (receiverAcc.username == currentAccount.username)alert("Cannot transfer to same account")
 
 
-  if(receiverAcc && amount > 0 && currentAccount.balance >= amount && receiverAcc?.username !== currentAccount.username){
+else{
     currentAccount.movements.push(-amount);
     receiverAcc.movements.push(amount);
 
