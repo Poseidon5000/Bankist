@@ -130,6 +130,7 @@ const updateInterface = function(acc){
 //implementing login
 
 let currentAccount;
+let timer;
 
 btnLogin.addEventListener('click', function(e){
   e.preventDefault();
@@ -148,9 +149,43 @@ btnLogin.addEventListener('click', function(e){
 
     updateInterface(currentAccount)
 
+    if(timer) clearInterval(timer)
+    timer = startTimer()
+
    
   }
+  
 })
+
+//Implementing timer
+
+const startTimer = function(){
+  let time = 120;
+
+  const tick = function(){
+  let min = String(Math.trunc(time/60)).padStart(2, 0);
+  let sec = String(Math.trunc(time%60)).padStart(2, 0);
+    
+
+    labelTimer.textContent = `${min}:${sec}`
+
+
+    if(time == 0){
+      clearInterval(timer)
+      containerApp.style.opacity = 0;
+      labelWelcome.textContent = `Log in to get started`
+
+    }
+
+    time--
+  }
+  
+  tick()
+ 
+  const timer = setInterval(tick, 1000)
+
+  return timer
+}
 
 
 // Implementing transfers
@@ -208,5 +243,7 @@ btnClose.addEventListener("click", function(e){
   }
   inputCloseUsername.value = inputCloseUsername.value = ""
 })
+
+
 
 
